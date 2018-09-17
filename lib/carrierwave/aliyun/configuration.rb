@@ -9,6 +9,7 @@ module CarrierWave
         add_config :aliyun_endpoint
         add_config :aliyun_bucket
         add_config :aliyun_region
+        add_config :aliyun_host
 
         configure do |config|
           config.storage_engines[:aliyun] = 'CarrierWave::Storage::Aliyun'

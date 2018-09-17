@@ -9,6 +9,13 @@ module CarrierWave
         @aliyun_endpoint     = uploader.aliyun_endpoint
         @aliyun_bucket       = uploader.aliyun_bucket
         @aliyun_region         = uploader.aliyun_region
+
+        # Host for get request
+        @aliyun_host = uploader.aliyun_host || "https://#{@aliyun_bucket}.#{@aliyun_endpoint}"
+
+        unless @aliyun_host.include?('//')
+          raise "config.aliyun_host requirement include // http:// or https://, but you give: #{@aliyun_host}"
+        end
       end
 
       # 上传文件
@@ -76,9 +83,9 @@ module CarrierWave
       def path_to_url(path, opts = {})
         if opts[:thumb]
           thumb_path = [path, opts[:thumb]].join('')
-          [@aliyun_endpoint, thumb_path].join('/')
+          [@aliyun_host, thumb_path].join('/')
         else
-          [@aliyun_endpoint, path].join('/')
+          [@aliyun_host, path].join('/')
         end
       end
 
